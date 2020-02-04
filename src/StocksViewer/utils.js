@@ -10,11 +10,12 @@ export function roundToTwo(num) {
 }
 
 export const uniqueMergeByProperty = (target, source, prop) => {
-  source.forEach(sourceElement => {
+  return source.map(sourceElement => {
     let targetElement = target.find(targetElement => {
       return sourceElement[prop] === targetElement[prop];
     });
-    if (targetElement) return Object.assign(targetElement, sourceElement);
+    return targetElement
+      ? { ...sourceElement, ...targetElement }
+      : sourceElement;
   });
-  return target;
 };

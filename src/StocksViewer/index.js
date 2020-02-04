@@ -25,7 +25,7 @@ const StocksViewer = () => {
     };
   }, [dispatch, editing]);
 
-  const mergedStocks = uniqueMergeByProperty(stocks, editedStocks, "index");
+  const mergedStocks = uniqueMergeByProperty(editedStocks, stocks, "index");
 
   if (error) return <div>Failed to load…</div>;
 
