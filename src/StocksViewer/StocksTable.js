@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { toggleEdit, addCustomStock } from "./actions";
 import { SCTableCell, SCTable, SCTableHead, SCCol, SCCellEdit } from "./styles";
 
-function EditableStockPrice({ type, stock }) {
+export function EditableStockPrice({ type, stock }) {
   const dispatch = useDispatch();
   const [price, setPrice] = React.useState(roundToTwo(stock.stocks[type]));
   const [priceEdit, setPriceEdit] = React.useState(false);
@@ -52,7 +52,8 @@ function EditableStockPrice({ type, stock }) {
   );
 }
 
-function StockCell({ stock }) {
+const StockCell = React.memo(({ stock }) => {
+  console.log("CELL");
   return (
     <SCTableCell role="row">
       <SCCol role="gridcell">
@@ -63,7 +64,7 @@ function StockCell({ stock }) {
       </SCCol>
     </SCTableCell>
   );
-}
+});
 
 const StockTable = ({ stocks }) => {
   return (

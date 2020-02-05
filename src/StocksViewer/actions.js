@@ -19,7 +19,12 @@ export const resolveError = error => ({
 export const getStocks = () => async (dispatch, getState) => {
   try {
     if (getState().stocks.length === 0) {
+      // Initial Loading
       dispatch(fetchStocks);
+    }
+    if (getState().editing) {
+      // Don't fetch stocks if we are editing
+      return false;
     }
     const url = "//127.0.0.1:8000?count=20";
     const response = await fetch(url);
