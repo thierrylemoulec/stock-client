@@ -52,8 +52,12 @@ export function EditableStockPrice({ type, stock }) {
   );
 }
 
+function isStockEqual(prevProps, nextProps) {
+  if (prevProps.stock.timestamp === nextProps.stock.timestamp) return true;
+  return false;
+}
+
 const StockCell = React.memo(({ stock }) => {
-  console.log("CELL");
   return (
     <SCTableCell role="row">
       <SCCol role="gridcell">
@@ -64,7 +68,7 @@ const StockCell = React.memo(({ stock }) => {
       </SCCol>
     </SCTableCell>
   );
-});
+}, isStockEqual);
 
 const StockTable = ({ stocks }) => {
   return (
