@@ -25,7 +25,10 @@ export function EditableStockPrice({ type, stock }) {
     e.preventDefault();
     setPriceEdit(!priceEdit);
     dispatch(
-      addCustomStock({ ...stock, stocks: { ...stock.stocks, [type]: price } })
+      addCustomStock({
+        ...stock,
+        stocks: { ...stock.stocks, [type]: parseFloat(price) }
+      })
     );
   }
 
@@ -36,7 +39,7 @@ export function EditableStockPrice({ type, stock }) {
           {price}
         </button>
       ) : (
-        <form onSubmit={handleSubmit}>
+        <form data-testid="form-cell" onSubmit={handleSubmit}>
           <input
             ref={inputRef}
             type="number"
