@@ -1,31 +1,37 @@
 import React from "react";
 import StocksGraph from "./StocksGraph";
 import StocksTable from "./StocksTable";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { getStocks } from "./actions";
-import { uniqueMergeByProperty, POLLING_INTERVAL } from "./utils";
+import { POLLING_INTERVAL, uniqueMergeByProperty } from "./utils";
 import { SCStocksViewer } from "./styles";
 
 const StocksViewer = () => {
   const dispatch = useDispatch();
-  const { stocks, editedStocks, loading, editing, error } = useSelector(
-    state => state
+  const { stocks, editedStocks, loading, error } = useSelector(state => {
+    return {
+      stocks: state.stocks,
+      loading: state.loading,
+      error: state.error,
+      editedStocks: state.editedStocks
+    };
+  }, shallowEqual);
+
+  const mergedStocks = React.useCallback(
+    uniqueMergeByProperty(editedStocks, stocks, "index"),
+    [editedStocks, stocks]
   );
 
   React.useEffect(() => {
     dispatch(getStocks());
     let pollingIntervalId = setInterval(() => {
-      if (!editing) {
-        dispatch(getStocks());
-      }
+      dispatch(getStocks());
     }, POLLING_INTERVAL);
 
     return () => {
       clearInterval(pollingIntervalId);
     };
-  }, [dispatch, editing]);
-
-  const mergedStocks = uniqueMergeByProperty(editedStocks, stocks, "index");
+  }, [dispatch]);
 
   if (error) return <div>Failed to load…</div>;
 

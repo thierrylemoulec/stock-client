@@ -6,7 +6,7 @@ import {
   RESOLVE_ERROR
 } from "./actions";
 
-const initialState = {
+export const initialState = {
   stocks: [],
   loading: true,
   editing: false,
